@@ -7,7 +7,6 @@ const Circles = (props) => {
       const [current, setCurrent] = useState("current");
 
       useEffect(() => {
-         console.log(current)
         let total = props.ambig + props.fear + props.goals + props.rundown 
         let ambig = (props.ambig / total) * 300
         let fear = (props.fear / total) * 300
@@ -22,9 +21,10 @@ const Circles = (props) => {
        };
 
    return (
-      <View  style={{display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "center", alignItems: "center"}} onPress={() => handleTriggerDetails({triggerName: "current"})}>
+      <View  style={{display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 150}} onPress={() => handleTriggerDetails({triggerName: "current"})}>
         {current === "current" && <View style={styles.mainViz}>
-            <View style={{width: 230, height: 230, borderWidth: 1, borderColor: "#E5E5E5", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
+           <View style={{width: 400, height: 400, borderWidth: 1, backgroundColor: "#E5E5E5", borderColor: "white", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
+            <View style={{width: 230, height: 230, borderWidth: 1, backgroundColor: "white", borderColor: "#E5E5E5", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
                <Text style={styles.centerText}>Feelings</Text>
                <Text style={styles.centerText}>{props.total}</Text>
             </View>
@@ -36,14 +36,16 @@ const Circles = (props) => {
                )
                )}
             </View>
-         </View>}
+         </View>
+         </View>
+         }
          {current !== "current" && <View >
-               <TouchableOpacity style={{ backgroundColor: types[current][1], borderRadius: 260 / 2, width: 260, height: 260, display:"flex", justifyContent: "center", alignItems: "center"}} onPress={() => setCurrent("current")}>
-                  <Text style={{fontSize: 10, fontWeight: "bold", color: "white", marginBottom: 10}}>{types[current][0] * props.total / 300} stories recorded</Text>
+               <TouchableOpacity style={{ backgroundColor: types[current][1], borderRadius: 260 / 2, width: 260, height: 260, display:"flex", justifyContent: "center", alignItems: "center", marginTop: 80}} onPress={() => setCurrent("current")}>
+                  <Text style={{fontSize: 10, fontWeight: "bold", color: "white", marginBottom: 10}}>{((types[current][0] / 300) * props.total).toFixed(0)} stories recorded</Text>
                   <Text style={{fontSize: 30, fontWeight: "bold", color: "white", marginBottom: 20}}>{current}</Text>
                   <Text style={{fontSize: 12, color: "white", marginBottom: 10, textAlign: "center"}}>Fear refers to the irrational status that is caused by an unpleasant condition.</Text>
                   <TouchableOpacity>
-                     <Text style={{fontSize: 12, fontWeight: "bold", color: "yellow"}}>Learn More</Text>
+                     <Text style={{fontSize: 12, fontWeight: "bold", color: "#6FE1E9"}}>Learn More</Text>
                   </TouchableOpacity>
                </TouchableOpacity>
          </View>}
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
       mainViz: {
          display: "flex",
          justifyContent: "center",
-         alignItems: "center"
+         alignItems: "center",
+         marginBottom: 150
       }
    });
