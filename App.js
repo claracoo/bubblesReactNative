@@ -2,7 +2,7 @@ import React,  {useState, useEffect} from 'react';
 import Circles from './Components/Circles'
 import Diary from './Components/Diary'
 import Dialogue from './Components/Dialogue'
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
 function App() {
    const [totalRecords, setTotalRecords] = useState([
     {"title": "My dog won't look at me", "trigger": "Rundown", "day": "05-06-2021", "story": "This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. Hadn’t seen them in awhile and they had never been to Texas (we are from California and they are originally from Thailand but we met in California years back). We showed them some of the unique things about Texas eg bbq, bucees, etc. Anyway while they were here we started talking about eating different things from different countries and she asks if I have ever eaten bugs. I have but only once but I’m open to try anything once. Fast forward to this morning. I’m laying in bed and my wife goes to get the mail. She hands me a padded envelope and says it’s from (friend). No idea what it could be so I tear open the package. Our dog was very interested btw. I get a smell like nuts so I’m thinking ‘strange she would send me nuts’ when a few fall out onto my shirtless torso and on the bed. They’re very black and now I’m more confused. Then I focus on one and I realize it’s a cricket body. She sent me fried crickets. One of the bags must have broken open in transit so they’re falling all over the place and my wife is losing her SHIT screaming about bugs in the bed. I am laughing hysterically picking cricket parts out of my chest hair while she runs away making a combination of screaming, laughing, and gagging sounds."},
@@ -62,9 +62,13 @@ function App() {
   const [colors, setColors] = useState({"Ambiguity": "#B56B9A", "Fear": "#E3C6DF", "Goals": "#5DACCE", "Rundown": "#5C83CE"});
   const [currScreen, setCurrScreen] = useState("Home");
 
+  let handleScreenChange = ({ screen }) => {
+    setCurrScreen(screen);
+  };
+
    return (
       <View style={styles.container}>
-        {currScreen == "Home" && <View style={styles.container}>
+        {currScreen == "Home" && <View style={styles.container}><ScrollView>
         <View style={styles.hello}>
           <Text style={styles.opening}>Hello Sam,</Text>
           <Text style={styles.opening}>What is your concern today?</Text>
@@ -76,9 +80,10 @@ function App() {
             <Text style={styles.startButtonText}> Share your concerns </Text>
           </TouchableOpacity>
           <Diary records={totalRecords} colors={colors}/>
+          </ScrollView>
           </View>}
           {currScreen == "Dialogue" && <View>
-            <Dialogue />
+            <Dialogue changeScreen={handleScreenChange}/>
           </View>
           }
       </View>
@@ -90,12 +95,13 @@ const styles = StyleSheet.create({
     container: {
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      alignContent: "center"
     },
     hello: {
       height: 100,
       marginLeft: 15,
-      marginTop: 30,
+      marginTop: 60,
     },
     opening: {
       fontWeight: "bold",
@@ -107,7 +113,7 @@ const styles = StyleSheet.create({
     graph: {
       height: 200,
       marginBottom: 80,
-      marginTop: -20
+      marginTop: 0,
     },
     startButton: {
       width: 280,
@@ -116,11 +122,12 @@ const styles = StyleSheet.create({
       backgroundColor: "#3E4449",
       display: "flex",
       justifyContent: "center",
-      alignItems: "center",
+      alignSelf: "center",
       borderRadius: 4,
-      marginTop: 100
+      marginTop: 80
     },
     startButtonText: {
       color: "white",
+      alignSelf: "center"
     }
   });

@@ -23,7 +23,7 @@ const Circles = (props) => {
    return (
       <View  style={{display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 150}} onPress={() => handleTriggerDetails({triggerName: "current"})}>
         {current === "current" && <View style={styles.mainViz}>
-           <View style={{width: 400, height: 400, borderWidth: 1, backgroundColor: "#E5E5E5", border: "none", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative", marginBottom: 150}}>
+           <View style={{width: 400, height: 400, borderWidth: 1, backgroundColor: "#E5E5E5", borderColor: "white", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
             <View style={{width: 230, height: 230, borderWidth: 1, backgroundColor: "white", borderColor: "#E5E5E5", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
                <Text style={styles.centerText}>Feelings</Text>
                <Text style={styles.centerText}>{props.total}</Text>
@@ -45,7 +45,7 @@ const Circles = (props) => {
                   <Text style={{fontSize: 30, fontWeight: "bold", color: "white", marginBottom: 20}}>{current}</Text>
                   <Text style={{fontSize: 12, color: "white", marginBottom: 10, textAlign: "center"}}>Fear refers to the irrational status that is caused by an unpleasant condition.</Text>
                   <TouchableOpacity>
-                     <Text style={{fontSize: 12, fontWeight: "bold", color: "yellow"}}>Learn More</Text>
+                     <Text style={{fontSize: 12, fontWeight: "bold", color: "#6FE1E9"}}>Learn More</Text>
                   </TouchableOpacity>
                </TouchableOpacity>
          </View>}
