@@ -1,1 +1,1 @@
-#import <ExpoModulesCore/ExpoModulesCore.h>
+../../../../../../node_modules/expo/ios/Expo.h

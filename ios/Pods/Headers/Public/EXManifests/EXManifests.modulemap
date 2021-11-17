@@ -1,6 +1,1 @@
-module EXManifests {
-  umbrella header "EXManifests-umbrella.h"
-
-  export *
-  module * { export * }
-}
+../../../Target Support Files/EXManifests/EXManifests.modulemap

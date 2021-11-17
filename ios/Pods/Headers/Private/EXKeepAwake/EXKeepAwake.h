@@ -1,7 +1,1 @@
-// Copyright 2018-present 650 Industries. All rights reserved.
-
-#import <ExpoModulesCore/EXExportedModule.h>
-#import <ExpoModulesCore/EXModuleRegistryConsumer.h>
-
-@interface EXKeepAwake : EXExportedModule <EXModuleRegistryConsumer>
-@end
+../../../../../node_modules/expo-keep-awake/ios/EXKeepAwake/EXKeepAwake.h

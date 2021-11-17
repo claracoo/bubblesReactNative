@@ -1,9 +1,1 @@
-// Copyright 2018-present 650 Industries. All rights reserved.
-
-#import <ExpoModulesCore/EXFontProcessorInterface.h>
-
-@protocol EXFontManagerInterface
-
-- (void)addFontProcessor:(id<EXFontProcessorInterface>)processor;
-
-@end
+../../../../../../node_modules/expo-modules-core/ios/Interfaces/Font/EXFontManagerInterface.h

@@ -62,6 +62,7 @@ function App() {
   const [colors, setColors] = useState({"Ambiguity": "#B56B9A", "Fear": "#E3C6DF", "Goals": "#5DACCE", "Rundown": "#5C83CE"});
   const [currScreen, setCurrScreen] = useState("Home");
 
+
   let handleScreenChange = ({ screen }) => {
     setCurrScreen(screen);
   };

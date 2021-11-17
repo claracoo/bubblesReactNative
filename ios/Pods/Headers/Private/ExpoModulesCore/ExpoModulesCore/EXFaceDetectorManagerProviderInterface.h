@@ -1,9 +1,1 @@
-// Copyright © 2018 650 Industries. All rights reserved.
-
-#import <ExpoModulesCore/EXFaceDetectorManagerInterface.h>
-
-@protocol EXFaceDetectorManagerProviderInterface
-
-- (id<EXFaceDetectorManagerInterface>)createFaceDetectorManager;
-
-@end
+../../../../../../node_modules/expo-modules-core/ios/Interfaces/FaceDetector/EXFaceDetectorManagerProviderInterface.h

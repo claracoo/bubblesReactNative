@@ -1,8 +1,1 @@
-// Copyright 2015-present 650 Industries. All rights reserved.
-
-#import <ExpoModulesCore/EXExportedModule.h>
-#import <ExpoModulesCore/EXModuleRegistryConsumer.h>
-
-@interface EXConstants : EXExportedModule <EXModuleRegistryConsumer>
-
-@end
+../../../../../node_modules/expo-constants/ios/EXConstants/EXConstants.h

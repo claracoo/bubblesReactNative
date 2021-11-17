@@ -1,16 +1,1 @@
-// Copyright 2015-present 650 Industries. All rights reserved.
-
-#import <EXFileSystem/EXSessionUploadTaskDelegate.h>
-#import <EXFileSystem/EXTaskHandlersManager.h>
-
-typedef void (^EXUploadDelegateOnSendCallback)(NSURLSessionUploadTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend);
-
-@interface EXSessionCancelableUploadTaskDelegate : EXSessionUploadTaskDelegate
-
-- (instancetype)initWithResolve:(EXPromiseResolveBlock)resolve
-                         reject:(EXPromiseRejectBlock)reject
-                 onSendCallback:(EXUploadDelegateOnSendCallback)onSendCallback
-               resumableManager:(EXTaskHandlersManager *)manager
-                           uuid:(NSString *)uuid;
-
-@end
+../../../../../node_modules/expo-file-system/ios/EXFileSystem/EXSessionTasks/EXSessionCancelableUploadTaskDelegate.h

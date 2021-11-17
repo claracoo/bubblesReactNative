@@ -1,5 +1,1 @@
-// Copyright 2018-present 650 Industries. All rights reserved.
-
-#import <Foundation/Foundation.h>
-
-extern NSString *const EXErrorCodeCanceled;
+../../../../../../node_modules/expo-modules-core/ios/EXErrorCodes.h

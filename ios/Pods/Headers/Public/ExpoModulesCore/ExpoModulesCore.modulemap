@@ -1,6 +1,1 @@
-module ExpoModulesCore {
-  umbrella header "ExpoModulesCore-umbrella.h"
-
-  export *
-  module * { export * }
-}
+../../../Target Support Files/ExpoModulesCore/ExpoModulesCore.modulemap

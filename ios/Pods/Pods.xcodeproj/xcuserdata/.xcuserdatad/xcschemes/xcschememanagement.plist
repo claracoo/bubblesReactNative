@@ -254,7 +254,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>react-native-dialogflow.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>react-native-safe-area-context.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>react-native-voice.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
