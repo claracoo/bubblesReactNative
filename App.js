@@ -105,21 +105,16 @@ function App() {
       if (story.length == 13) reasonArr = [story[5].text, story[11].text]
       if (story.length == 21) reasonArr = [story[5].text, story[11].text, story[19].text]
       setWhy(reasonArr);
-      let date = timeConverter(Number(story[1]["_id"]));
-      let newStory = {"title": title, "trigger": category, "day": date, "story": trigger + theWhat, "why": reasonArr}
-      setTotalRecords([newStory, ...totalRecords])
-      if (category == "Rundown") setRundownRecords([newStory, ...rundownRecords])
-      if (category == "Ambiguity") setAmbigRecords([newStory, ...ambigRecords])
-      if (category == "Goals") setGoalsRecords([newStory, ...goalsRecords])
-      if (category == "Fear") setFearRecords([newStory, ...fearRecords])
     }
   };
 
   let addStory = () => {
+    console.log(storyRecount)
     setCurrScreen("Home");
     if (storyRecount.length != 0) {
-      let story = storyRecount.reverse()
+      let story = storyRecount
       let trigger = story[1].text;
+      console.log("trigger: ", trigger, "title: ", title, "what: ", what, "why: ", why)
       let category = ""
       if (trigger == "Feeling Depleted") category = "Rundown"
       if (trigger == "Feeling Ambiguity") category = "Ambiguity"
@@ -130,27 +125,14 @@ function App() {
       if (trigger == "Feeling Ambiguity") trigger = "I felt as though my perspective lacked clarity because "
       if (trigger == "My Goals") trigger = "My goals felt threatened because "
       if (trigger == "My Fears") trigger = "I felt as though my fears had been triggered because "
-      setWhat(trigger + theWhat)
-      console.log("what happened", theWhat)
-      let reasonArr = [story[5].text, story[9].text]
-      if (story.length == 17) reasonArr = [story[5].text, story[9].text, story[15].text]
-      if (story.length == 19) {
-        if (story[10].text.split(" ")[0] == "Are") reasonArr = [story[5].text, story[11].text, story[17].text]
-        else reasonArr = [story[5].text, story[9].text, story[17].text]
-      }
-      if (story.length == 13) reasonArr = [story[5].text, story[11].text]
-      if (story.length == 21) reasonArr = [story[5].text, story[11].text, story[19].text]
-      setWhy(reasonArr);
       let date = timeConverter(Number(story[1]["_id"]));
-      let newStory = {"title": title, "trigger": category, "day": date, "story": trigger + theWhat, "why": reasonArr}
+      let newStory = {"title": title, "trigger": category, "day": date, "story": what, "why": why}
       setTotalRecords([newStory, ...totalRecords])
       if (category == "Rundown") setRundownRecords([newStory, ...rundownRecords])
       if (category == "Ambiguity") setAmbigRecords([newStory, ...ambigRecords])
       if (category == "Goals") setGoalsRecords([newStory, ...goalsRecords])
       if (category == "Fear") setFearRecords([newStory, ...fearRecords])
     }
-    setStoryRecount([])
-    setTitle("")
   }
 
    return (
@@ -181,7 +163,6 @@ function App() {
               placeholder="Name your story"
             />
             <TouchableOpacity style={styles.titleSubmit} onPress={() => {if (title.length > 0) {
-              console.log(storyRecount);
               setCurrScreen("Story", "");
             }}}><Text>Submit</Text></TouchableOpacity>
             </View>}
