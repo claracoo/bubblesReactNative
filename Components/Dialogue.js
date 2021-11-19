@@ -72,14 +72,15 @@ const Dialogue = (props) => {
     //     return nextMsg
     // }
  
-  const onSend = useCallback((messages = []) => {
-        let newMessage = messages
+  const onSend = useCallback((messagesSent = []) => {
+      console.log("yoooop")
+        let newMessage = messagesSent
         delete newMessage[0].createdAt
         newMessage[0]["_id"] = Date.now()
         let newAndNext = [newMessage[0]]
         setMessages(previousMessages => GiftedChat.append(previousMessages, newAndNext))
         Dialogflow_V2.requestQuery(
-            messages[0].text,
+            messagesSent[0].text,
             result => handleGoogleResponse(result),
             error => console.log(error)
           );
@@ -180,7 +181,7 @@ const sendBotResponse = (text) => {
         </TouchableOpacity>
         <GiftedChat
             messages={messages}
-            onSend={messages => onSend(messages)}
+            onSend={messagesSent => onSend(messagesSent)}
             onQuickReply={quickReply => onQuickReply(quickReply)}
             user={{ _id: 1}}
             // renderInputToolbar={InputToolbar}

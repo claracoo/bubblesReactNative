@@ -121,6 +121,8 @@ function App() {
       if (category == "Goals") setGoalsRecords([newStory, ...goalsRecords])
       if (category == "Fear") setFearRecords([newStory, ...fearRecords])
     }
+    setStoryRecount([])
+    setTitle("")
   }
 
    return (
