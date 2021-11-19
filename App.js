@@ -135,7 +135,7 @@ function App() {
       if (trigger == "My Fears") trigger = "I felt as though my fears had been triggered because "
       let date = timeConverter(Number(story[1]["_id"]));
       let newStory = {"title": title, "trigger": category, "day": date, "story": what, "why": why}
-      console.log(newStory)
+      console.log(newStory, newStoryStatus)
       if (newStoryStatus) {
         setTotalRecords([newStory, ...totalRecords])
         if (category == "Rundown") setRundownRecords([newStory, ...rundownRecords])

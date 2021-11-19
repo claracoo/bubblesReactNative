@@ -39,8 +39,8 @@ const Circles = (props) => {
          </View>
          </View>
          }
-         {current !== "current" && <View >
-               <TouchableOpacity style={{ backgroundColor: types[current][1], borderRadius: 260 / 2, width: 260, height: 260, display:"flex", justifyContent: "center", alignItems: "center", marginTop: 40}} onPress={() => setCurrent("current")}>
+         {current !== "current" && <View style={{width: 400, height: 400, borderWidth: 1, backgroundColor: "white", borderColor: "white", borderRadius: 200, justifyContent: "center", alignItems: "center", position: "relative"}}>
+               <TouchableOpacity style={{ backgroundColor: types[current][1], borderRadius: 260 / 2, width: 260, height: 260, display:"flex", justifyContent: "center", alignItems: "center", marginTop: 0}} onPress={() => setCurrent("current")}>
                   <Text style={{fontSize: 10, fontWeight: "bold", color: "white", marginBottom: 10}}>{((types[current][0] / 300) * props.total).toFixed(0)} stories recorded</Text>
                   <Text style={{fontSize: 30, fontWeight: "bold", color: "white", marginBottom: 20}}>{current}</Text>
                   <Text style={{fontSize: 12, color: "white", marginBottom: 10, textAlign: "center"}}>Fear refers to the irrational status that is caused by an unpleasant condition.</Text>
