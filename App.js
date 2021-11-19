@@ -2,7 +2,7 @@ import React,  {useState, useEffect} from 'react';
 import Circles from './Components/Circles'
 import Diary from './Components/Diary'
 import Dialogue from './Components/Dialogue'
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 function App() {
    const [totalRecords, setTotalRecords] = useState([
     {"title": "My dog won't look at me", "trigger": "Rundown", "day": "05-06-2021", "story": "This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. Hadn’t seen them in awhile and they had never been to Texas (we are from California and they are originally from Thailand but we met in California years back). We showed them some of the unique things about Texas eg bbq, bucees, etc. Anyway while they were here we started talking about eating different things from different countries and she asks if I have ever eaten bugs. I have but only once but I’m open to try anything once. Fast forward to this morning. I’m laying in bed and my wife goes to get the mail. She hands me a padded envelope and says it’s from (friend). No idea what it could be so I tear open the package. Our dog was very interested btw. I get a smell like nuts so I’m thinking ‘strange she would send me nuts’ when a few fall out onto my shirtless torso and on the bed. They’re very black and now I’m more confused. Then I focus on one and I realize it’s a cricket body. She sent me fried crickets. One of the bags must have broken open in transit so they’re falling all over the place and my wife is losing her SHIT screaming about bugs in the bed. I am laughing hysterically picking cricket parts out of my chest hair while she runs away making a combination of screaming, laughing, and gagging sounds."},
@@ -61,11 +61,36 @@ function App() {
 ])
   const [colors, setColors] = useState({"Ambiguity": "#B56B9A", "Fear": "#E3C6DF", "Goals": "#5DACCE", "Rundown": "#5C83CE"});
   const [currScreen, setCurrScreen] = useState("Home");
+  const [title, setTitle] = useState("")
+  const [what, setWhat] = useState("This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. Hadn’t seen them in awhile")
+  const [why, setWhy] = useState(["Because I am a terrible person, he does not want to see my face.", "A giant, unsolicited ear of corn attacked him, and then he would not have been able to show his face.", "He ran into the Kool-Aid Man, and then he was distracted."])
 
 
-  let handleScreenChange = ({ screen }) => {
+  let handleScreenChange = ({ screen, story }) => {
     setCurrScreen(screen);
+    if (story != "") {
+      story = story.reverse()
+      console.log(story[1], story[3])
+      let trigger = story[1].text;
+      let theWhat = story[3].text
+      if (trigger == "Feeling Depleted") trigger = "I was feeling a rundown because "
+      if (trigger == "Feeling Ambiguity") trigger = "I felt as though my perspective lacked clarity because "
+      if (trigger == "My Goals") trigger = "My goals felt threatened because "
+      if (trigger == "My Fears") trigger = "I felt as though my fears had been triggered because "
+      setWhat(trigger + theWhat)
+      let reasonArr = [story[5].text, story[9].text]
+      for (let i in story) {
+        if (i < story.length && i >= 15 && (i + 1) % 4 == 0)  {
+          reasonArr.push(story[i])
+        }
+      }
+      setWhy(reasonArr)
+    }
   };
+
+  let addStory = () => {
+    setCurrScreen("Home");
+  }
 
    return (
       <View style={styles.container}>
@@ -77,16 +102,41 @@ function App() {
           <View style={styles.graph}>
             <Circles total={totalRecords.length} ambig={ambigRecords.length} fear={fearRecords.length} goals={goalsRecords.length} rundown={rundownRecords.length}/>
          </View>
-         <TouchableOpacity style={styles.startButton} onPress={() => {setCurrScreen("Dialogue")}}>
+         <TouchableOpacity style={styles.startButton} onPress={() => {setCurrScreen("Dialogue", "")}}>
             <Text style={styles.startButtonText}> Share your concerns </Text>
           </TouchableOpacity>
-          <Diary records={totalRecords} colors={colors}/>
+          <Diary records={totalRecords} colors={colors} changeScreen={handleScreenChange}/>
           </ScrollView>
           </View>}
           {currScreen == "Dialogue" && <View>
             <Dialogue changeScreen={handleScreenChange}/>
           </View>
           }
+          {currScreen == "Title" && <View style={styles.titlePage}>
+            <Text style={{color: "white"}}>Name your experience:</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setTitle}
+              placeholder="Name your story"
+            />
+            <TouchableOpacity style={styles.titleSubmit} onPress={() => {if (title.length > 0) setCurrScreen("Story", "")}}><Text>Submit</Text></TouchableOpacity>
+            </View>}
+          {currScreen == "Story" && <View style={styles.storyPage}>
+              <ScrollView>
+                  <Text style={{color: "white", fontSize: 24}}>{title}</Text>
+                  <Text style={{color: "#F1F1F1", fontSize: 16}}>{what}</Text>
+                  <Text style={{color: "#F1F1F1", fontSize: 16, marginTop: 30}}>Some Reasons:</Text>
+                  <View>
+                  {why.map((text) => (
+                    <View key={text} style={{display: "flex", flexDirection: "row", marginHorizontal: 10, marginBottom: 10}}>
+                      <Text style={{color: "#F1F1F1", fontSize: 20}}>&middot;</Text>
+                      <Text style={{color: "#F1F1F1", fontSize: 16, marginLeft: 10}}>{text}</Text>
+                    </View>
+                  ))}
+                  </View>
+                  <TouchableOpacity style={styles.titleSubmit} onPress={() => addStory()}><Text>Done Reading</Text></TouchableOpacity>
+              </ScrollView>
+              </View>}
       </View>
    );
 }
@@ -130,5 +180,51 @@ const styles = StyleSheet.create({
     startButtonText: {
       color: "white",
       alignSelf: "center"
-    }
+    },
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+    },
+    titlePage: {
+      width: 700,
+      height: 800,
+      backgroundColor: "#14171A",
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      alignContent: "center",
+      paddingTop: 200,
+    },
+    input: {
+      backgroundColor: "white",
+      width: 275,
+      padding: 10,
+      marginTop: 20,
+    },
+    titleSubmit: {
+      backgroundColor: "#62C3CA",
+      width: 275,
+      padding: 10,
+      borderRadius: 4,
+      textAlign: "center",
+      marginTop: 20,
+      display: "flex",
+      alignContent: "center",
+      alignItems: "center", 
+      alignSelf: "center"
+    }, 
+    storyPage: {
+      width: 600,
+      height: 1000,
+      backgroundColor: "#14171A",
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      alignContent: "flex-end",
+      paddingTop: 150,
+      paddingHorizontal: 150,
+      fontFamily: "Roboto"
+    },
   });

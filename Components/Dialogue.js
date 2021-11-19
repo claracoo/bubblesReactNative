@@ -28,13 +28,24 @@ const Dialogue = (props) => {
     const [triggers, setTriggers] = useState({"Feeling Depleted": "Why are you feeling depleted? What happened?", "My Goals": "Why are you concerned about yout goals? What happened?", "Feeling Ambiguity": "In what way are you feeling that there is ambiguity? What happened?", "My Fears": "Why do you feel fearful? What happened?"})
     const [msgCount, setMsgCount] = useState(2)
     const [presetMsgs, setPresetMsgs] = useState(["ask for feeling", "they say what happened", "ask why for normal answer", "respond normally", "asky why with madlib", "pick which word for madlib", "tell user which madlib picked", "respond with madlib", "ask if they want to do more or save"])
+    const [funWhy, setFunWhy] = "Okay, let’s have fun with this! Choose a word from this list and use it to come up with a new reason for why this situation happened. The crazier the better!"
  
     useEffect(() => {
         setMessages([
         {
             _id: 1,
             text: 'Hi, Sam. What is your concern right now?',
-            user: BOT_USER
+            user: BOT_USER,
+            quickReplies: {
+              type: "radio",
+              keepit: true,
+              values: [
+                {"title": "Feeling Depleted", "value": "Feeling Depleted"},
+                {"title": "My Goals", "value": "My Goals"},
+                {"title": "Feeling Ambiguity", "value": "Feeling Ambiguity"},
+                {"title": "My Fears", "value": "My Fears"}
+              ]
+            }
         },
         ])
         Dialogflow_V2.setConfiguration(
@@ -62,9 +73,9 @@ const Dialogue = (props) => {
     // }
  
   const onSend = useCallback((messages = []) => {
-        console.log("idx", msgCount)
         let newMessage = messages
         delete newMessage[0].createdAt
+        newMessage[0]["_id"] = Date.now()
         let newAndNext = [newMessage[0]]
         setMessages(previousMessages => GiftedChat.append(previousMessages, newAndNext))
         Dialogflow_V2.requestQuery(
@@ -74,30 +85,103 @@ const Dialogue = (props) => {
           );
   }, [])
 
+  const onQuickReply = (quickReply) => {
+    let id = Date.now()
+    let message = [{
+      "_id": Date.now(),
+      "text": quickReply[0].value,
+      "user": {"_id": 1}
+    }]
+    if (quickReply[0].value == "Save") {
+      props.changeScreen({screen: "Title", story: messages});
+    }
+    else {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, message))
+    message = quickReply[0].value
+    Dialogflow_V2.requestQuery(
+        message,
+        result => handleGoogleResponse(result),
+        error => console.log(error)
+      );
+    }
+}
+
   const handleGoogleResponse = (result) => {  
     let text = result.queryResult.fulfillmentMessages[0].text.text[0];
     sendBotResponse(text);
 }
 
 const sendBotResponse = (text) => {  
+  // if (text == funWhy) console.log("woooo")
     let msg = {
       _id: Date.now(),
       text,
       createdAt: new Date(),
       user: BOT_USER
     };
-    console.log(text)
+    if (text.split(" ")[0] == "Okay,") {
+      msg = {
+        _id: Date.now(),
+        text,
+        createdAt: new Date(),
+        user: BOT_USER,
+        quickReplies: {
+          type: "radio",
+          keepit: true,
+          values: [
+            {"title": "Corn", "value": "Corn"},
+            {"title": "Dragon", "value": "Dragon"},
+            {"title": "Shakira", "value": "Shakira"}
+          ]
+        }
+      };
+    }
+    if (text.split(" ")[0] == "Great!") {
+      msg = {
+        _id: Date.now(),
+        text,
+        createdAt: new Date(),
+        user: BOT_USER,
+        quickReplies: {
+          type: "radio",
+          keepit: true,
+          values: [
+            {"title": "Save", "value": "Save"},
+            {"title": "Keep Going", "value": "Keep Going"}
+          ]
+        }
+      };
+    }
+    if (text.split(" ")[0] == "Nice!") {
+      msg = {
+        _id: Date.now(),
+        text,
+        createdAt: new Date(),
+        user: BOT_USER,
+        quickReplies: {
+          type: "radio",
+          keepit: true,
+          values: [
+            {"title": "Black Friday", "value": "Black Friday"},
+            {"title": "Toe Nails", "value": "Toe Nails"},
+            {"title": "Kool-Aid Man", "value": "Kool-Aid Man"}
+          ]
+        }
+      };
+    }
+    if (text == "Save") () => props.changeScreen({screen: "Story"})
     setMessages(previousMessages => GiftedChat.append(previousMessages, msg))
   }
  
    return (
     <View>
-        <TouchableOpacity style={{ width: 300, marginTop: 50, backgroundColor: "white", display: "flex", flexDirection: "column", flexWrap: "wrap", alignContent: "flex-start", alignItems: "flex-start", justifyContent: "flex-start"}} onPress={() => props.changeScreen({screen: "Home"})}>
+        <TouchableOpacity style={{ width: 300, marginTop: 50, backgroundColor: "white", display: "flex", flexDirection: "column", flexWrap: "wrap", alignContent: "flex-start", alignItems: "flex-start", justifyContent: "flex-start"}} onPress={() => props.changeScreen({screen: "Home", story: ""})}>
             <Text style={{fontSize: 40, display: "flex", flexDirection: "column", flexWrap: "wrap", alignSelf: "flex-start", alignContent: "flex-start", justifyContent: "flex-start"}}>&#8701;</Text>
         </TouchableOpacity>
         <GiftedChat
             messages={messages}
             onSend={messages => onSend(messages)}
+            onQuickReply={quickReply => onQuickReply(quickReply)}
             user={{ _id: 1}}
             // renderInputToolbar={InputToolbar}
             renderAvatar={renderAvatar}
