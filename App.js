@@ -5,7 +5,7 @@ import Dialogue from './Components/Dialogue'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 function App() {
    const [totalRecords, setTotalRecords] = useState([
-    {"title": "My dog won't look at me", "trigger": "Rundown", "day": "05-06-2021", "story": "This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. Hadn’t seen them in awhile and they had never been to Texas (we are from California and they are originally from Thailand but we met in California years back). We showed them some of the unique things about Texas eg bbq, bucees, etc. Anyway while they were here we started talking about eating different things from different countries and she asks if I have ever eaten bugs. I have but only once but I’m open to try anything once. Fast forward to this morning. I’m laying in bed and my wife goes to get the mail. She hands me a padded envelope and says it’s from (friend). No idea what it could be so I tear open the package. Our dog was very interested btw. I get a smell like nuts so I’m thinking ‘strange she would send me nuts’ when a few fall out onto my shirtless torso and on the bed. They’re very black and now I’m more confused. Then I focus on one and I realize it’s a cricket body. She sent me fried crickets. One of the bags must have broken open in transit so they’re falling all over the place and my wife is losing her SHIT screaming about bugs in the bed. I am laughing hysterically picking cricket parts out of my chest hair while she runs away making a combination of screaming, laughing, and gagging sounds.", "why": ["This is because I am not good enough and I am scared I will never succeed.", "It is because I can often not telll the difference between sweet corn and yellow corn and I am too afraid to ask.", "It is because the marzipan my dad left on the coffee table was secretly just glue."]},
+    {"title": "My dog won't look at me", "trigger": "Rundown", "day": "05-06-2021", "story": "This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. runs away making a combination of screaming, laughing, and gagging sounds.", "why": ["This is because I am not good enough and I am scared I will never succeed.", "It is because I can often not telll the difference between sweet corn and yellow corn and I am too afraid to ask.", "It is because the marzipan my dad left on the coffee table was secretly just glue."]},
     {"title": "Rude Coworkers", "trigger": "Fear", "day": "06-12-2021", "story": "Today was my first day back from 13 days of isolation. I was very sick from Covid along with 18 others from one area -- about 1/5th the workforce. The young lady who watered my plants in my lab was asking how I was doing and how I felt being back when another co-worker, a Karen-esque type, came up to us. She interrupted me to tell us how upset she is that so many people are out and how much extra work she has to do. I told her I had been out because sometimes people get sick and they need to take time off, and the mandates in our state require those who test positive to quarantine for 10 days. She then exclaimed, pointing her bony finger angrily at me, 'so, you're the damn superspreader!' I said to her 'no, I wasn't, but I heard that was your nickname in high school.' I had to visit HR after lunch. I was told my comment wasn’t appreciated and not to do it again.", "why": ["This is because I am not good enough and I am scared I will never succeed.", "It is because I can often not telll the difference between sweet corn and yellow corn and I am too afraid to ask.", "It is because the marzipan my dad left on the coffee table was secretly just glue."]},
     {"title": "Curse of the Bean Juice", "trigger": "Ambiguity", "day": "08-24-2021", "story": "A few weeks ago I bought some dried garbanzo beans. I hate how long it takes dried beans to cook so I decided to presoak them in a canning jar. In my infinite wisdom I thought 'canned beans don't need to be refrigerated so these shouldn't be any different.' This morning I noticed there were bubbles coming out of the jar in my pantry. This is when I realized maybe I should have refrigerated them I also noticed the lid of the jar was bulging out so I knew it had some pressure built up inside. I'm guessing they started to ferment. I didn't want to open it up right away so I thought I would relive the pressure before opening to throw them away. I took a thumbtack and poked a hole in the lid of the jar. As soon as I took the tack out a geyser of shit smelling bean water shot up to my ceiling. This was the most foul smelling thing I have ever smelled and it covered my kitchen with this rancid bean juice. As I am typing this my wife has left me to clean my shame while she hides in the bathroom (the only room spared from the stink).", "why": ["This is because I am not good enough and I am scared I will never succeed.", "It is because I can often not telll the difference between sweet corn and yellow corn and I am too afraid to ask.", "It is because the marzipan my dad left on the coffee table was secretly just glue."]},
     {"title": "My dog and my phone", "trigger": "Ambiguity", "day": "09-02-2021", "story": "For context my dog is a 5 month old Greyhound cross Labrador and is very tall. She is normally well behaved, and since she was tired I left my phone on the shelf (I did not know she could reach it) to get a glass of water. I was gone for maximum 30 seconds but when I got back she was not there. At this point I had not realised that my phone was gone, so I went into the garden to check what she was doing. To my horror she had it in her mouth and was throwing it around in the garden. For some reason I thought it would be a good idea to chase after her, which of course made her run off with the phone thinking we were playing a game. Only then I thought to tell her to drop it - at which point she happened to be stood right in front of a pile of her own excrement. You can guess what happened next. She then decided to stand on it, smearing shit all over the screen. As I picked it up she gave me a look that I can only describe as a 'fuck you,' and I proceeded to spend a very long time scraping droppings off my phone.", "why": ["This is because I am not good enough and I am scared I will never succeed.", "It is because I can often not telll the difference between sweet corn and yellow corn and I am too afraid to ask.", "It is because the marzipan my dad left on the coffee table was secretly just glue."]},
@@ -65,6 +65,7 @@ function App() {
   const [storyRecount, setStoryRecount] = useState([])
   const [what, setWhat] = useState("This started a few weeks ago. I had a friend and her kids stay with me and my wife for a few days. Hadn’t seen them in awhile")
   const [why, setWhy] = useState(["Because I am a terrible person, he does not want to see my face.", "A giant, unsolicited ear of corn attacked him, and then he would not have been able to show his face.", "He ran into the Kool-Aid Man, and then he was distracted."])
+  const [newStoryStatus, setNewStoryStatus] = useState(true);
 
   function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
@@ -77,6 +78,15 @@ function App() {
     var sec = a.getSeconds();
     var time = date + '-' + month + '-' + year
     return time;
+  }
+
+  let handleViewOldStory = ({ title, what, why }) => {
+    let screen = "Story"
+    setCurrScreen(screen);
+    setTitle(title)
+    setWhat(what)
+    setWhy(why)
+    setNewStoryStatus(false)
   }
 
   let handleScreenChange = ({ screen, story }) => {
@@ -109,12 +119,10 @@ function App() {
   };
 
   let addStory = () => {
-    console.log(storyRecount)
     setCurrScreen("Home");
     if (storyRecount.length != 0) {
       let story = storyRecount
       let trigger = story[1].text;
-      console.log("trigger: ", trigger, "title: ", title, "what: ", what, "why: ", why)
       let category = ""
       if (trigger == "Feeling Depleted") category = "Rundown"
       if (trigger == "Feeling Ambiguity") category = "Ambiguity"
@@ -127,11 +135,15 @@ function App() {
       if (trigger == "My Fears") trigger = "I felt as though my fears had been triggered because "
       let date = timeConverter(Number(story[1]["_id"]));
       let newStory = {"title": title, "trigger": category, "day": date, "story": what, "why": why}
-      setTotalRecords([newStory, ...totalRecords])
-      if (category == "Rundown") setRundownRecords([newStory, ...rundownRecords])
-      if (category == "Ambiguity") setAmbigRecords([newStory, ...ambigRecords])
-      if (category == "Goals") setGoalsRecords([newStory, ...goalsRecords])
-      if (category == "Fear") setFearRecords([newStory, ...fearRecords])
+      console.log(newStory)
+      if (newStoryStatus) {
+        setTotalRecords([newStory, ...totalRecords])
+        if (category == "Rundown") setRundownRecords([newStory, ...rundownRecords])
+        if (category == "Ambiguity") setAmbigRecords([newStory, ...ambigRecords])
+        if (category == "Goals") setGoalsRecords([newStory, ...goalsRecords])
+        if (category == "Fear") setFearRecords([newStory, ...fearRecords])
+      }
+      else setNewStoryStatus(true)
     }
   }
 
@@ -148,7 +160,7 @@ function App() {
          <TouchableOpacity style={styles.startButton} onPress={() => {setCurrScreen("Dialogue", "")}}>
             <Text style={styles.startButtonText}> Share your concerns </Text>
           </TouchableOpacity>
-          <Diary records={totalRecords} colors={colors} changeScreen={handleScreenChange}/>
+          <Diary records={totalRecords} colors={colors} viewStory={handleViewOldStory}/>
           </ScrollView>
           </View>}
           {currScreen == "Dialogue" && <View>
@@ -179,7 +191,7 @@ function App() {
                     </View>
                   ))}
                   </View>
-                  <TouchableOpacity style={styles.titleSubmit} onPress={() => addStory()}><Text>Done Reading</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.titleSubmit} onPress={() => addStory(false)}><Text>Done Reading</Text></TouchableOpacity>
               </ScrollView>
               </View>}
       </View>
