@@ -29,6 +29,7 @@ const Dialogue = (props) => {
     const [msgCount, setMsgCount] = useState(2)
     const [presetMsgs, setPresetMsgs] = useState(["ask for feeling", "they say what happened", "ask why for normal answer", "respond normally", "asky why with madlib", "pick which word for madlib", "tell user which madlib picked", "respond with madlib", "ask if they want to do more or save"])
     const [funWhy, setFunWhy] = "Okay, let’s have fun with this! Choose a word from this list and use it to come up with a new reason for why this situation happened. The crazier the better!"
+    const [inWordMode, setInWordMode] = useState(false)
  
     useEffect(() => {
         setMessages([
@@ -73,7 +74,14 @@ const Dialogue = (props) => {
     // }
  
   const onSend = useCallback((messagesSent = []) => {
-      console.log("yoooop")
+        let word = messagesSent[0].text.toLowerCase()
+        var includesTheWord = word.includes("corn") || word.includes("dragon") || word.includes("shakira") || word.includes("black friday") || word.includes("toe nails") || word.includes("kool-aid man")
+        console.log(inWordMode, includesTheWord)
+        if (inWordMode && !includesTheWord) {
+            console.log("ummmm")
+            return;
+        }
+        else {
         let newMessage = messagesSent
         delete newMessage[0].createdAt
         newMessage[0]["_id"] = Date.now()
@@ -84,6 +92,7 @@ const Dialogue = (props) => {
             result => handleGoogleResponse(result),
             error => console.log(error)
           );
+        }
   }, [])
 
   const onQuickReply = (quickReply) => {
@@ -99,6 +108,8 @@ const Dialogue = (props) => {
     else {
     setMessages(previousMessages => GiftedChat.append(previousMessages, message))
     message = quickReply[0].value
+    console.log((message == "Corn" || message == "Dragon" || message == "Shakira" || message == "Black Friday" || message == "Toe Nails" || message == "Kool-Aid Man"))
+    if (message == "Corn" || message == "Dragon" || message == "Shakira" || message == "Black Friday" || message == "Toe Nails" || message == "Kool-Aid Man") setInWordMode(true)
     Dialogflow_V2.requestQuery(
         message,
         result => handleGoogleResponse(result),
@@ -120,7 +131,10 @@ const sendBotResponse = (text) => {
       createdAt: new Date(),
       user: BOT_USER
     };
+    if (text.split(" ")[0] == "Why")setInWordMode(true)
+    // pick first word
     if (text.split(" ")[0] == "Okay,") {
+      setInWordMode(true)
       msg = {
         _id: Date.now(),
         text,
@@ -137,7 +151,9 @@ const sendBotResponse = (text) => {
         }
       };
     }
+    // after user responds to the prompt
     if (text.split(" ")[0] == "Great!") {
+      setInWordMode(true)
       msg = {
         _id: Date.now(),
         text,
@@ -153,6 +169,7 @@ const sendBotResponse = (text) => {
         }
       };
     }
+    //pick second word
     if (text.split(" ")[0] == "Nice!") {
       msg = {
         _id: Date.now(),
